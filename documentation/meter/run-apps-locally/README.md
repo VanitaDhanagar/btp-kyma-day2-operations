@@ -202,7 +202,7 @@ Run the following commands to start the services. Start each in a separate comma
 
 ## Run the Easy Franchise UI
 
-1. Check that you have defined the URL path of the backend APIs to the local backend services. Open the file [code/easyfranchise/source/ui/src/main.js](../../../code/easyfranchise/source/ui/src/main.js) and check the value for ```Vue.prototype.$backendApi``` for:
+1. Check that you have defined the URL path of the backend API to the local backend service. Open the file [code/easyfranchise/source/ui/src/main.js](../../../code/easyfranchise/source/ui/src/main.js) and check the value for ```Vue.prototype.$backendApi```.
    ```js
    Vue.prototype.$backendApi = "http://localhost:8080/easyfranchise/rest/efservice/v1";
    ```
@@ -234,8 +234,13 @@ Run the following commands to start the services. Start each in a separate comma
 
    
 ## Run the Metering Dashboard UI
+ 
+1. Similary to what we did for the Easy Franchise UI, we need to update the URL path of the backend API to the local Day2 service. Open the file [code/day2-operations/source/day2-ui/src/main.js](../../../code/day2-operations/source/day2-ui/src/main.js) and check the value for ```Vue.prototype.$backendApi```. Be sure to use the right port started by your terminal for the Day2 service as it may be different from the documentation below.
+   ```js
+   Vue.prototype.$backendApi = "http://localhost:8091/user/metric";
+   ```
 
-1. Open a command prompt and go to [code/day2-operations/source/day2-ui](../../../code/day2-operations/source/day2-ui/).
+1. Now you can open a command prompt and go to [code/day2-operations/source/day2-ui](../../../code/day2-operations/source/day2-ui/).
 
 2. Install the Node.js modules.
    ```shell
