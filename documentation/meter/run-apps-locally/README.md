@@ -240,14 +240,14 @@ Run the following commands to start the services. Start each in a separate comma
    Vue.prototype.$backendApi = "http://localhost:8091/user/metric";
    ```
 
-1. Now you can open a command prompt and go to [code/day2-operations/source/day2-ui](../../../code/day2-operations/source/day2-ui/).
+2. Now you can open a command prompt and go to [code/day2-operations/source/day2-ui](../../../code/day2-operations/source/day2-ui/).
 
-2. Install the Node.js modules.
+3. Install the Node.js modules.
    ```shell
    $ npm install
    ```
    
-3. Start the service.
+4. Start the service.
    ```shell
    $ npm run serve
    ```
@@ -258,13 +258,13 @@ Run the following commands to start the services. Start each in a separate comma
    ```
    http://localhost:8082
    ```
-4. Open this URL in a browser.
+5. Open this URL in a browser.
 
-5. As you already logged in to the Easy Franchise service, which is using the tenant ID 123456789-local-tenant-id, you should find an according record. 
+6. As you already logged in to the Easy Franchise service, which is using the tenant ID 123456789-local-tenant-id, you should find an according record. 
 
    ![](../images/meeteringDashboardLocaltenant.png)
 
-6. If you would like to see a second tenant or increase the number of active users, you can achieve this by : 
+7. If you would like to see a second tenant or increase the number of active users, you can achieve this by : 
    - Updating the properties ```devmode.tenantid``` in the ```hiddenconfig.properties``` of the backend services.  Stop, build and start the application again, so that the new tenant ID gets activated and reopen the Easy Franchise UI.
    - (Optional) Running a REST call against the Day2 service via CURL command and fake a user login of, for example, "Jon Smith" for "second-local-tenant-id": 
    
