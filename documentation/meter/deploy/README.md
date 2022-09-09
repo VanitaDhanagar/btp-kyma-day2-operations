@@ -16,15 +16,24 @@ To execute all the necessary steps for the deployment, you will need the followi
 
 **NOTE** If you use Windows, we recommend using a Linux subsystem for the mission as our scripts are only available as bash scripts. Furthermore, most of the examples around Kubernetes, for example, are written for Linux/MacOS environments. See [Install WSL](https://docs.microsoft.com/en-us/windows/wsl/install) in the Microsoft documentation for more details. If you have chosen to use Linux, you need to choose the Linux installation option for the mentioned tools.
 
-## Update the Easy Franchise Application
+## Update the Easy Franchise Application and the Day2 UI
 
-1. Navigate into the [setup](../../../code/setup/) folder:
+1. If you have tested the application locally and then changed the Backend API variables for the different UIs, you need to change them back to work with the deployed services. Open the file [code/easyfranchise/source/ui/src/main.js](../../../code/easyfranchise/source/ui/src/main.js) and check the value for ```Vue.prototype.$backendApi```. It should be as follow:
+   ```js
+   Vue.prototype.$backendApi = "/backend/easyfranchise/rest/efservice/v1";
+
+2. Then open the file [code/day2-operations/source/day2-ui/src/main.js](../../../code/day2-operations/source/day2-ui/src/main.js) and check the value for ```Vue.prototype.$backendApi```. It should be as follow:
+   ```js
+   Vue.prototype.$backendApi = "/day2-service/user";
+   ```
+
+3. Navigate into the [setup](../../../code/setup/) folder:
 
    ``` bash
    cd code/setup
    ```
 
-2. Execute the [Easy Franchise Deployment Script](../../../code/setup/easyfranchise-deployment.sh):
+4. Execute the [Easy Franchise Deployment Script](../../../code/setup/easyfranchise-deployment.sh):
 
    ``` bash
    ./easyfranchise-deployment.sh
