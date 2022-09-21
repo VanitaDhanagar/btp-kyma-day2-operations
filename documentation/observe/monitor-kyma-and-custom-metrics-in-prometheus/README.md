@@ -7,8 +7,6 @@ Kyma ships already a built-in Prometheus instance for easy access to pre-defined
 In this chapter we will show how to deploy a custom Prometheus instance to scrape custom metrics, while at the same time collects metrics from the build-in Prometheus。 It will consolidate metrics from different source into one single Prometheus instance. In addition, we will redirect the metrics from custom Prometheus instance to an external tooling, such as [Grafana Cloud Service](https://grafana.com/auth/sign-up/create-user) or a custom Grafana instance in your Kyma cluster.
 
 
-<!-- TODO Matthieu: why not add Solution Diagram showing all the data flows described above? -->
-
 ## Install Custom Prometheus
 
 Among other options, Prometheus could be easily installed using (1) [Prometheus operator kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) or typical (2) [Kubernetes deployment or statefulset](https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus).   The operator usually would use for installations which need to be scalable and highly available. Keeping in mind that Kyma uses the prometheus-operator internally. If you want to deploy your own instance of a prometheus-operator, please deny the "kyma-system" namespace (refer to https://github.com/kyma-project/kyma/issues/14379) as Kyma uses the prometheus-operator internally. For simplicity a native deployment with helm chart is used in this tutorial.
@@ -28,7 +26,7 @@ During installation we will disable the unnecessary components in the charts, an
 Run the following command to install Prometheus with your custom value file.
 
 ```shell
-helm install -f prometheus_values.yaml myprometheus prometheus
+helm install -f prometheus_values.yaml myprometheus prometheus-community/Prometheus
 ```
 
 You can then run following command to access Prometheus at http://localhost:9091/
@@ -61,7 +59,7 @@ We will add our custom Prometheus server as default datasource for Grafana. A [g
 Run the following command from the [code/day2-operations/deployment/k8s/](../../../code/day2-operations/deployment/k8s/) folder to install the Helm chart with your custom values.
 
 ```shell
-helm install -f grafana_values.yaml mygrafana grafana
+helm install -f grafana_values.yaml mygrafana grafana/grafana
 ```
 
 Run below command and access your Grafana instance at http://localhost:3000
