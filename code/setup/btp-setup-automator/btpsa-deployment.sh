@@ -113,6 +113,11 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     kubectl create namespace backend || true
     kubectl create namespace mock || true
     kubectl create namespace frontend || true
+
+    kubectl label namespace integration istio-injection=enabled --overwrite || true
+    kubectl label namespace backend istio-injection=enabled --overwrite || true
+    kubectl label namespace mock istio-injection=enabled --overwrite || true
+    kubectl label namespace frontend istio-injection=enabled --overwrite || true
     echo
 
     log "Step 2.2 - DB Secret: "
@@ -171,6 +176,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
 if [ "$BTPSA_KYMA_IMAGE_TAG" = "endresult" ]; then
   kubectl create namespace day2-operations || true
+  kubectl label namespace day2-operations istio-injection=enabled --overwrite || true
   
   PROJECT=day2-approuter
   log "Step 2.13 - Deploy $PROJECT"

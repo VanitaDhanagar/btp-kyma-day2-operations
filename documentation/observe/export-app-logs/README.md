@@ -123,7 +123,7 @@ Then, deploy the **fluentbit.yaml** in your Kyma cluster.
 
 ```shell
 
-kubectl deploy -f fluentbit.yaml
+kubectl apply -f fluentbit.yaml
 
 ```
 
