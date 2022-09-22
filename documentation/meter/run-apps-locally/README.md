@@ -62,7 +62,10 @@ Using Spring Boot you can configure properties using application.properties file
    ```shell
    curl --request PUT 'http://localhost:8091/user/login' \
    --header 'Content-Type: application/json' \
-   --data-raw '{"tenantid":"tenant1","user":"Jon Smith"}'
+   --data-raw '{
+       "tenantid": "tenant1",
+       "user": "Jon Smith"    
+   }'
    ```
 2. Let us now verify that the login has been saved by calling the API to get the metrics about active users. Use the following CURL statement and don't forget to replace the date (```<CURRENT-YEAR>```and ```<CURRENT-MONTH-NUMBER>```) before running it.
    ```shell
