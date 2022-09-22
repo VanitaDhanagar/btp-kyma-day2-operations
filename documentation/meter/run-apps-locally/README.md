@@ -75,7 +75,7 @@ Using Spring Boot you can configure properties using application.properties file
    You should then get a JSON response as follow:
 
    ```json
-   [{ "tenantid": "123456789-local-tenant-id", "activeUsers": 1 }]
+   [{ "tenantid": ""tenant1", "activeUsers": 1 }]
    ```
 3. If you like, add other users and/or other tenants and verify the results.
 
@@ -236,8 +236,9 @@ Run the following commands to start the services. Start each in a separate comma
 ## Run the Day2 UI
  
 1. Similary to what we did for the Easy Franchise UI, we need to update the URL path of the backend API to the local Day2 service. Open the file [code/day2-operations/source/day2-ui/src/main.js](../../../code/day2-operations/source/day2-ui/src/main.js) and check the value for ```Vue.prototype.$backendApi```. Be sure to use the right port started by your terminal for the Day2 service as it may be different from the documentation below.
+   
    ```js
-   Vue.prototype.$backendApi = "http://localhost:8091/day2-service/user";
+   Vue.prototype.$backendApi = "http://localhost:8091/user";
    ```
 
 2. Now you can open a command prompt and go to [code/day2-operations/source/day2-ui](../../../code/day2-operations/source/day2-ui/).
@@ -256,7 +257,7 @@ Run the following commands to start the services. Start each in a separate comma
    By default this is at: 
 
    ```
-   http://localhost:8082
+   http://localhost:8081
    ```
 5. Open this URL in a browser.
 
