@@ -2,6 +2,22 @@
 
 As mentioned in the previous chapter, the Easy Franchise application needs to be updated to call the API provided by the Day2 service once a user starts the application. 
 
+### Update the Util class 
+
+1. Open the file [backend/shared-code/src/main/java/dev/kyma/samples/easyfranchise/Util.java](../../../code/easyfranchise/source/backend/shared-code/src/main/java/dev/kyma/samples/easyfranchise/Util.java) in your preferred editor.
+2. Add the follwoing const:
+
+   ``` 
+   private static String METERING_OPERATIONS_SERVICE= "day2.service";
+   ``` 
+3. Add the follwoing methode:
+
+   ```
+   public static String getMeteringOperationServiceUrl() {
+        Properties p = readProperties(BACKEND_CONFIG_PATH);
+        return p.getProperty(METERING_OPERATIONS_SERVICE);
+    }   
+   ```   
 
 ### Update the Easy Franchise Service
 
