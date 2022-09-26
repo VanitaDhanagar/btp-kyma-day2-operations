@@ -88,6 +88,14 @@ As mentioned in the previous chapter, the Easy Franchise application needs to be
        return createOkResponseSimpleText("ok");
    }
    ```
+   
+   With the code above you will need new imports. Add them as well: 
+   ```
+   import java.io.StringReader;
+   import java.util.Base64;
+   import jakarta.json.Json;
+   import jakarta.json.JsonObject;
+   ```
 
 4. To make the application running locally, we use the file [hiddenconfig-template.properties](../../../code/easyfranchise/source/backend/shared-code/src/main/resources/hiddenconfig-template.properties) to store different properties. Copy this file and rename it to **hiddenconfig.properties**. 
 
