@@ -2,7 +2,7 @@
 
 As mentioned in the previous chapter, the Easy Franchise application needs to be updated to call the API provided by the Day2 service once a user starts the application. 
 
-### Update the Util class 
+### Update the Util Class 
 
 1. Open the file [backend/shared-code/src/main/java/dev/kyma/samples/easyfranchise/Util.java](../../../code/easyfranchise/source/backend/shared-code/src/main/java/dev/kyma/samples/easyfranchise/Util.java) in your preferred editor.
 2. Add the follwoing const:
