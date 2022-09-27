@@ -2,6 +2,22 @@
 
 As mentioned in the previous chapter, the Easy Franchise application needs to be updated to call the API provided by the Day2 service once a user starts the application. 
 
+### Update the Util Class 
+
+1. Open the file [backend/shared-code/src/main/java/dev/kyma/samples/easyfranchise/Util.java](../../../code/easyfranchise/source/backend/shared-code/src/main/java/dev/kyma/samples/easyfranchise/Util.java) in your preferred editor.
+2. Add the follwoing const:
+
+   ``` 
+   private static String METERING_OPERATIONS_SERVICE= "day2.service";
+   ``` 
+3. Add the follwoing methode:
+
+   ```
+   public static String getMeteringOperationServiceUrl() {
+        Properties p = readProperties(BACKEND_CONFIG_PATH);
+        return p.getProperty(METERING_OPERATIONS_SERVICE);
+    }   
+   ```   
 
 ### Update the Easy Franchise Service
 
@@ -87,6 +103,14 @@ As mentioned in the previous chapter, the Easy Franchise application needs to be
    public Response setOptions10() {
        return createOkResponseSimpleText("ok");
    }
+   ```
+   
+   With the code above you will need new imports. Add them as well: 
+   ```
+   import java.io.StringReader;
+   import java.util.Base64;
+   import jakarta.json.Json;
+   import jakarta.json.JsonObject;
    ```
 
 4. To make the application running locally, we use the file [hiddenconfig-template.properties](../../../code/easyfranchise/source/backend/shared-code/src/main/resources/hiddenconfig-template.properties) to store different properties. Copy this file and rename it to **hiddenconfig.properties**. 
