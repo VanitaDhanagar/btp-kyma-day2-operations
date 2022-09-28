@@ -7,7 +7,7 @@
                 </fd-shell-bar-action>
               <fd-shell-bar-logo 
                 alt="Easy Franchise Logo" 
-                src="http://sap.pelatan.de/documents/ef-logo.png"  
+                src="https://raw.githubusercontent.com/SAP-samples/btp-kyma-multitenant-extension/main/code/easyfranchise/source/ui/src/assets/logo-easy-franchise.png"  
                 width="48"
                 height="24" 
                 @click="goHome"
