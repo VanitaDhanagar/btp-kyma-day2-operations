@@ -38,7 +38,8 @@ We need to create a **Role Binding**, so that you are able to access the Service
 2. Choose **+** to create a new Role Binding.
 3. In the **Create Role Binding** dialog, fill in the following fields: 
    * Name: enter a name, for example **cicd-fontend-binding**
-   * Role: select **admin (CRI)**. (Note: In a productive environment, you would like to restrict the permissions of a service account to the minimal scope and not grant admin privileges, but for a tutorial this is of no concern.) 
+   * Role Type: ClusterRole
+   * Role: select **admin**. (Note: In a productive environment, you would like to restrict the permissions of a service account to the minimal scope and not grant admin privileges, but for a tutorial this is of no concern.) 
    * Kind: **ServiceAccount**  
    * Service Account Namespace: **frontend** 
    * Service Account Name: **cicd-frontend** (or the name you chose for your Service Account) 
@@ -53,3 +54,10 @@ We need to create a **Role Binding**, so that you are able to access the Service
 2. Download the kubeconfig to your local file system. We will need it later, when configuring the build job. 
    
    ![](./images/05-CICD-14.png)
+
+## Create a second Service account 
+
+In addition to the **cicd-frontend** service account, we will need also one for the day2-operations namespace. Therefore repeat the following steps for the **day2-operations** namespace: 
+* Create a Continuous Integration and Delivery Service Account
+* Create a Cluster Role Binding
+* Download the Kubeconfig of the Service Account

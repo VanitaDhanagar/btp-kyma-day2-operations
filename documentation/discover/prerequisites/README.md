@@ -9,6 +9,8 @@ To execute all the necessary steps of the tutorial, you will need the following 
   * SAP BTP, Kyma runtime enabled
   * SAP HANA Cloud
   * Destination service
+  * Authorization and Trust Management Service
+  * Continuous Integration and Delivery
 
 ## Tools
 

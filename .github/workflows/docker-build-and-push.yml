@@ -5,6 +5,7 @@ on:
     branches:
       - 'main'
       - 'endresult'
+  workflow_dispatch:
     
 env:
   REGISTRY: ghcr.io
