@@ -8,7 +8,7 @@ You can use these services locally:
 * Business Partner service
 * Day2 service
 * Easy Franchise UI
-* Metering Dashboard UI
+* Day2 UI
 
 ![](../images/easy-franchise-metering/Slide11.jpeg)
 
@@ -18,6 +18,7 @@ Using Spring Boot you can configure properties using application.properties file
 
 
 1. Copy [code/day2-operations/source/day2-service/application-template.properties](../../../code/day2-operations/source/day2-service/application-template.properties)  as **application.properties**
+
 2. Update the values for those properties:
    * datasource.sqlendpoint: SAP HANA sql endpoint
    * spring.datasource.username: DBADMIN
@@ -38,11 +39,13 @@ Using Spring Boot you can configure properties using application.properties file
    ```
    $ ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8888" -Dspring.config.location="application.properties"
    ```
+   
 4. Use the following command if you go for the executive JAR file:
    ```
    $ ./mvnw clean package
    $ java -jar target/operations-service-0.0.1-SNAPSHOT.jar -Dspring.config.location="application.properties"
-   ``` 
+   ```
+   
 5. Check in the browser that the server is up and running by opening [http://localhost:8091/](http://localhost:8091/). You should get something like this:
     
    ![](../images/operationsServiceStartPage.png)
@@ -64,8 +67,7 @@ Using Spring Boot you can configure properties using application.properties file
        "user": "Jon Smith"    
    }'
    ```
-   
-1. Let us now verify that the login has been saved by calling the API to get the metrics about active users. Use the following CURL statement and don't forget to replace the date (```<CURRENT-YEAR>```and ```<CURRENT-MONTH-NUMBER>```) before running it.
+2. Let us now verify that the login has been saved by calling the API to get the metrics about active users. Use the following CURL statement and don't forget to replace the date (```<CURRENT-YEAR>```and ```<CURRENT-MONTH-NUMBER>```) before running it.
    ```shell
    curl --request GET 'http://localhost:8091/user/metric?year=<CURRENT-YEAR>&month=<CURRENT-MONTH-NUMBER>' 
    ```
@@ -73,10 +75,9 @@ Using Spring Boot you can configure properties using application.properties file
    You should then get a JSON response as follow:
 
    ```json
-   [{ "tenantid": "123456789-local-tenant-id", "activeUsers": 1 }]
+   [{ "tenantid": ""tenant1", "activeUsers": 1 }]
    ```
-
-1. If you like, add other users and/or other tenants and verify the results.
+3. If you like, add other users and/or other tenants and verify the results.
 
 
 ## Start the Database Service, the Easy Franchise Service, and the Business Partner Service
@@ -90,9 +91,9 @@ Using Spring Boot you can configure properties using application.properties file
 To run locally the services listed above, you have to configure some properties in the `hiddenconfig.properties` file:
 1. Open the prepared sources from the previous steps or download the one from the GitHub [Repository](../../../code/easyfranchise/source/backend). In the **endresult** branch, you will find the source in the [code/easyfranchise/source/backend](../../../code/easyfranchise/source/backend) folder.
 
-1. Copy the file ```code/backend/shared-code/src/main/resources/hiddenconfig-template.properties``` to `hiddenconfig.properties` in the same folder.
+2. Copy the file ```code/backend/shared-code/src/main/resources/hiddenconfig-template.properties``` to `hiddenconfig.properties` in the same folder.
 
-1. Maintain your SAP HANA Cloud JDBC connection properties in the `db.*` section. This should look like this:
+3. Maintain your SAP HANA Cloud JDBC connection properties in the `db.*` section. This should look like this:
    ```
    db.name: EasyFranchiseHANADB
    db.sqlendpoint: your_hostname.hanacloud.ondemand.com:443
@@ -102,7 +103,7 @@ To run locally the services listed above, you have to configure some properties 
 
    For more details, see [How to find JDBC Connection Properties](https://github.com/SAP-samples/btp-kyma-multitenant-extension/tree/main/documentation/prepare/configure-hana#how-to-find-jdbc-connection-properties).
 
-1. Update the `s4hana.destination.*` properties.
+4. Update the `s4hana.destination.*` properties.
 
    If you use the SAP Business Partner mock server to run the application locally, use:
 
@@ -150,7 +151,7 @@ To run locally the services listed above, you have to configure some properties 
 
 ### Start All Backend Services
 
-1. Run the following commands to start the services. Start each in a separate command prompt and in the correct folder.
+Run the following commands to start the services. Start each in a separate command prompt and in the correct folder.
 
    In folder [code/easyfranchise/source/backend/ef-service](../../../code/easyfranchise/source/backend/ef-service):
 
@@ -192,7 +193,7 @@ To run locally the services listed above, you have to configure some properties 
 
    > Note: If the request fails, check the logs of ```ef-service``` and ```db-service```.
 
-1. Check that you can read franchisees.
+2. Check that you can read franchisees.
    ```
    curl --request GET 'http://localhost:8080/easyfranchise/rest/efservice/v1/franchisee' 
    ```
@@ -201,23 +202,23 @@ To run locally the services listed above, you have to configure some properties 
 
 ## Run the Easy Franchise UI
 
-1. Check that you have defined the URL path of the backend APIs to the local backend services. Open the file [code/easyfranchise/source/ui/src/main.js](../../../code/easyfranchise/source/ui/src/main.js) and check the value for ```Vue.prototype.$backendApi``` for:
+1. Check that you have defined the URL path of the backend API to the local backend service. Open the file [code/easyfranchise/source/ui/src/main.js](../../../code/easyfranchise/source/ui/src/main.js) and check the value for ```Vue.prototype.$backendApi```.
    ```js
    Vue.prototype.$backendApi = "http://localhost:8080/easyfranchise/rest/efservice/v1";
    ```
-1. Open a new terminal and change directory to **ui**.
+2. Open a new terminal and change directory to **ui**.
 
    ```shell
    $ cd ui
    ```
 
-1. Install Node.js modules in your repository by running:
+3. Install Node.js modules in your repository by running:
 
    ```shell
    $ npm install
    ```
 
-1. Run the server:
+4. Run the server:
 
    ```shell
    $ npm run serve
@@ -228,20 +229,26 @@ To run locally the services listed above, you have to configure some properties 
    ```
    http://localhost:8081/
    ```
-1. Open this URL in a browser.
-1. Opening the Easy Franchise UI will create a login metering info, which you should be able to see in the Metering Dashboard UI in the next step. 
+5. Open this URL in a browser.
+6. Opening the Easy Franchise UI will create a login metering info, which you should be able to see in the Day2 UI in the next step. 
 
    
-## Run the Metering Dashboard UI
+## Run the Day2 UI
+ 
+1. Similary to what we did for the Easy Franchise UI, we need to update the URL path of the backend API to the local Day2 service. Open the file [code/day2-operations/source/day2-ui/src/main.js](../../../code/day2-operations/source/day2-ui/src/main.js) and check the value for ```Vue.prototype.$backendApi```. Be sure to use the right port started by your terminal for the Day2 service as it may be different from the documentation below.
+   
+   ```js
+   Vue.prototype.$backendApi = "http://localhost:8091/user";
+   ```
 
-1. Open a command prompt and go to [code/day2-operations/source/day2-ui](../../../code/day2-operations/source/day2-ui/).
+2. Now you can open a command prompt and go to [code/day2-operations/source/day2-ui](../../../code/day2-operations/source/day2-ui/).
 
-1. Install the Node.js modules.
+3. Install the Node.js modules.
    ```shell
    $ npm install
    ```
    
-1. Start the service.
+4. Start the service.
    ```shell
    $ npm run serve
    ```
@@ -250,15 +257,15 @@ To run locally the services listed above, you have to configure some properties 
    By default this is at: 
 
    ```
-   http://localhost:8082
+   http://localhost:8081
    ```
-1. Open this URL in a browser.
+5. Open this URL in a browser.
 
-1. As you already logged in to the Easy Franchise service, which is using the tenant ID 123456789-local-tenant-id, you should find an according record. 
+6. As you already logged in to the Easy Franchise service, which is using the tenant ID 123456789-local-tenant-id, you should find an according record. 
 
    ![](../images/meeteringDashboardLocaltenant.png)
 
-1. If you would like to see a second tenant or increase the number of active users, you can achieve this by : 
+7. If you would like to see a second tenant or increase the number of active users, you can achieve this by : 
    - Updating the properties ```devmode.tenantid``` in the ```hiddenconfig.properties``` of the backend services.  Stop, build and start the application again, so that the new tenant ID gets activated and reopen the Easy Franchise UI.
    - (Optional) Running a REST call against the Day2 service via CURL command and fake a user login of, for example, "Jon Smith" for "second-local-tenant-id": 
    
