@@ -1,6 +1,6 @@
 # Deploy the Day2 Application to Kyma
 
-The following chapters will guide you through the deployment process of the Day2 Application. There are two options to deploy the application: manually and using a script. First, we will describe the manual approach and then we will show the deployment using a script that contains all the manual steps. For the update of the Easy Franchise application, we will only use the build script and will not explain the manual steps. If you want to understand more about the Easy Franchise deployment, check the [Deployment chapter of the Easy Franchise: Develop a Multitenant Extension Application in SAP BTP, Kyma Runtime](https://github.com/SAP-samples/btp-kyma-multitenant-extension/tree/main/documentation/deploy) mission.
+The following chapters will guide you through the deployment process of the Day2 Application. There are two options to deploy the application: manually and using a [script](../../../code/setup/day2-operations-deployment.sh). In the follwoing chapter we will describe the manual approach. For the update of the Easy Franchise application, we will only use the build script and will not explain the manual steps. If you want to understand more about the Easy Franchise deployment, check the [Deployment chapter of the Easy Franchise: Develop a Multitenant Extension Application in SAP BTP, Kyma Runtime](https://github.com/SAP-samples/btp-kyma-multitenant-extension/tree/main/documentation/deploy) mission.
 
 ## Prerequisites
 
@@ -16,15 +16,24 @@ To execute all the necessary steps for the deployment, you will need the followi
 
 **NOTE** If you use Windows, we recommend using a Linux subsystem for the mission as our scripts are only available as bash scripts. Furthermore, most of the examples around Kubernetes, for example, are written for Linux/MacOS environments. See [Install WSL](https://docs.microsoft.com/en-us/windows/wsl/install) in the Microsoft documentation for more details. If you have chosen to use Linux, you need to choose the Linux installation option for the mentioned tools.
 
-## Update the Easy Franchise Application
+## Update the Easy Franchise Application and the Day2 UI
 
-1. Navigate into the [setup](../../../code/setup/) folder:
+1. If you have tested the application locally and then changed the Backend API variables for the different UIs, you need to change them back to work with the deployed services. Open the file [code/easyfranchise/source/ui/src/main.js](../../../code/easyfranchise/source/ui/src/main.js) and check the value for ```Vue.prototype.$backendApi```. It should be as follow:
+   ```js
+   Vue.prototype.$backendApi = "/backend/easyfranchise/rest/efservice/v1";
+
+2. Then open the file [code/day2-operations/source/day2-ui/src/main.js](../../../code/day2-operations/source/day2-ui/src/main.js) and check the value for ```Vue.prototype.$backendApi```. It should be as follow:
+   ```js
+   Vue.prototype.$backendApi = "/day2-service/user";
+   ```
+
+3. Navigate into the [setup](../../../code/setup/) folder:
 
    ``` bash
    cd code/setup
    ```
 
-2. Execute the [Easy Franchise Deployment Script](../../../code/setup/easyfranchise-deployment.sh):
+4. Execute the [Easy Franchise Deployment Script](../../../code/setup/easyfranchise-deployment.sh):
 
    ``` bash
    ./easyfranchise-deployment.sh
@@ -169,7 +178,7 @@ When we speak about **docker-repository**, we mean the combination of account an
       Release "day2-ui" has been upgraded. Happy Helming!
       NAME: day2-ui
       LAST DEPLOYED: Mon May  9 15:51:56 2022
-      NAMESPACE: default
+      NAMESPACE: day2-operations
       STATUS: deployed
       REVISION: 3
       TEST SUITE: None

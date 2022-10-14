@@ -1,6 +1,10 @@
 name: Build and Push Docker Image
 
 on: 
+  push:
+    branches:
+      - 'main'
+      - 'endresult'
   workflow_dispatch:
     
 env:

@@ -117,7 +117,7 @@ Configure **Acceptance** and **Release**:
 To run the EasyFranchise-UI Job you, follow these steps:
 
 1. Select the job.
-2. Choose **Trigger build** arrows to trigger your fist build.
+2. Choose **Run** to start your fist build.
 3. You should see a new build job being initialized.
 4. After the job has been finished, it should look like this:
 
