@@ -26,7 +26,7 @@ During installation we will disable the unnecessary components in the charts, an
 Run the following command to install Prometheus with your custom value file.
 
 ```shell
-helm install -f prometheus_values.yaml myprometheus prometheus-community/Prometheus
+helm install -f prometheus_values.yaml myprometheus prometheus-community/prometheus
 ```
 
 You can then run following command to access Prometheus at http://localhost:9091/

@@ -1,6 +1,6 @@
 # Deploy the Day2 Application to Kyma
 
-The following chapters will guide you through the deployment process of the Day2 Application. There are two options to deploy the application: manually and using a script. First, we will describe the manual approach and then we will show the deployment using a script that contains all the manual steps. For the update of the Easy Franchise application, we will only use the build script and will not explain the manual steps. If you want to understand more about the Easy Franchise deployment, check the [Deployment chapter of the Easy Franchise: Develop a Multitenant Extension Application in SAP BTP, Kyma Runtime](https://github.com/SAP-samples/btp-kyma-multitenant-extension/tree/main/documentation/deploy) mission.
+The following chapters will guide you through the deployment process of the Day2 Application. There are two options to deploy the application: manually and using a [script](../../../code/setup/day2-operations-deployment.sh). In the follwoing chapter we will describe the manual approach. For the update of the Easy Franchise application, we will only use the build script and will not explain the manual steps. If you want to understand more about the Easy Franchise deployment, check the [Deployment chapter of the Easy Franchise: Develop a Multitenant Extension Application in SAP BTP, Kyma Runtime](https://github.com/SAP-samples/btp-kyma-multitenant-extension/tree/main/documentation/deploy) mission.
 
 ## Prerequisites
 
@@ -178,7 +178,7 @@ When we speak about **docker-repository**, we mean the combination of account an
       Release "day2-ui" has been upgraded. Happy Helming!
       NAME: day2-ui
       LAST DEPLOYED: Mon May  9 15:51:56 2022
-      NAMESPACE: default
+      NAMESPACE: day2-operations
       STATUS: deployed
       REVISION: 3
       TEST SUITE: None
