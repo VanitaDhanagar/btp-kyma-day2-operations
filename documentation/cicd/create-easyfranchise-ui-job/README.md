@@ -93,7 +93,7 @@ Configure the **General Parameters**:
 Configure the **Build**:
 
 1. Check that **Build** is switched on.
-2. Enter the path to the dockerfile for the Easy Franchise UI: ```/code/easyfranchise/deployment/docker/Dockerfile-ui```
+2. Enter the path to the dockerfile for the Easy Franchise UI: ```./code/easyfranchise/deployment/docker/Dockerfile-ui```
 
    ![](./images/05-CICD-15a.png) 
 
@@ -104,7 +104,7 @@ Configure **Acceptance** and **Release**:
 3. Fill in the rest of the information:
    * Namespace: frontend
    * Deploy Tool: kubectl
-   * Application Template File: ```code/easyfranchise/deployment/k8s/ui.yaml```
+   * Application Template File: ```./code/easyfranchise/deployment/k8s/ui.yaml```
    * Deploy Command: apply
 
 4. Select **Create Container Registry Secret** checkbox. This will automatically create a secret in the cluster so that the image can be pulled from your repository.
