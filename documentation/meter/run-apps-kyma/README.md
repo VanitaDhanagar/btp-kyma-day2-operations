@@ -5,11 +5,9 @@ This chapter explains how to check that the metering scenario was deployed corre
 ## Check that the Database is running
 
 1. Open your **EasyFranchise-Day2** account in SAP BTP Cockpit.
-1. Choose **Cloud Foundry** > **Spaces** in the left navigation tree.
-1. Select the only space **hana** by clicking on it.
-1. In left navigation choose **SAP HANA Cloud**. This will open your SAP HANA Database instance tile on the right side. Verif that it was created by verifying that you see the green **created** label.
-1. On the same page you will find the button **Manage SAP HANA Cloud** on the top right. Select the button to open the SAP HANA Instance Overview.
-1. Check that the database is running. If it is stopped, you can restart it with the **Actions** Menu on the right.
+1. Choose **Services** > **Instances And Subsections** in the left navigation tree.
+1. Select your Database and expand the "..." and select **View Dashboard**
+1. Check in the opened dashboard that the  database status is **running**.
 
 ## Create Metering Data
 
