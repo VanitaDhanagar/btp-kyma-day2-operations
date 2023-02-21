@@ -34,7 +34,7 @@ You can create a service account either using the **Kubernetes Command Line Tool
 
 We need to create a **Role Binding**, so that you are able to access the Service Account you just created.
 
-1. Make sure you have still selected the namespace **frontend**. Navigate to **Cluster Role Bindings** which is under **Configuration** menu.
+1. Make sure you have still selected the namespace **frontend**. Navigate to **Role Bindings** which is under **Configuration** menu.
 2. Choose **+** to create a new Role Binding.
 3. In the **Create Role Binding** dialog, fill in the following fields: 
    * Name: enter a name, for example **cicd-fontend-binding**

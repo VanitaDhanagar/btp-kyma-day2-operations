@@ -38,7 +38,7 @@ Navigate to your Dynatrace environment and go to **Deployment Status** > **Add n
 
 - Name: Your Kubernetes cluster appears with this name in Dynatrace
 - Group: kubernetes
-- Operator token: Click on "Create token" to automatically generate the required token.
+- Dynatrace Operator token: Click on "Create token" to automatically generate the required token.
 - API Token: Click on "Create token" to automatically generate the required token.
 - Toggle `Skip SSL certificate check`, as the Kubernetes cluster API has no valid SSL certificate in most cases
 
@@ -48,16 +48,21 @@ Download the `dynakube.yaml` file, copy the commands from the page and execute t
 
 In case you are using **Dynatrace trial environment**, this step is slightly different. Navigate to **Infrastructure** > **Kubernetes** > **Connect automatically via Dynatrace Operator**, fill in necessary information and follow the steps.
 
-Once the Dynatrace Operator was installed, you can configure the Kubernetes integration via **Settings** > **Cloud and virtualization** > **Kubernetes**:
+Once the Dynatrace Operator was installed, you can configure the Kubernetes integration via **Infrastructure** > **Kubernetes** > select the connected Kubernetes cluster, which leads to the monitoring page of newly added cluster. Then click on the **...** on the top right corner > select **Settings**
+
 
 ![](images/dynatrace_settings.png)
 
-Make sure following settings are switched on:
+You can test connection from Dynatrace to your Kubernetes cluster by clicking on button "Test Connection". It should return "Successfully connected to the Kubernetes API". 
 
-- Monitor workloads, pods and namespaces
+Make sure following settings are switched on and click on "Save Changes":
+
+- Connect containerized ActiveGate to local Kubernetes API endpoint
+- Monitor Kubernetes namespaces, services, workloads and pods.
 - Monitor annotated Prometheus exporters
 - Monitor events
-- Opt in to the Kubernetes events integration for analysis and alerting
+- Filter events
+- Include important events
 
 Now you have successfully deployed Dynatrace Operator. Next we will enable inject metrics from Istio/Envoy and Kyma system metrics into Dynatrace.
 
@@ -66,9 +71,11 @@ Now you have successfully deployed Dynatrace Operator. Next we will enable injec
 Kyma comes with service-to-service communication and proxying (Istio-based service mesh). Istio and Envoy metrics can be ingested into Dynatrace via [Prometheus integration](https://www.dynatrace.com/support/help/how-to-use-dynatrace/infrastructure-monitoring/container-platform-monitoring/kubernetes-monitoring/monitor-prometheus-metrics/) and pre-build dashboard. You can set up the Istio and Envoy service mesh extension to get Istio dashboards and alerts for those metrics.
 
 1. Enable Prometheus monitoring and Envoy technology in Dynatrace:
-   - Go to **Settings** > **Cloud and virtualization** > **Kubernetes** , look for your cluster and select **Action** > **Settings**, and turn on `Monitor annotated Prometheus exporters. (If not yet done in previous step)
+   - Go to **Infrastructure** > **Kubernetes**, look for your cluster and select **Action** > **Settings**, and turn on `Monitor annotated Prometheus exporters. (If not yet done in previous step)
 
-   - Go to **Settings** > **Monitoring** > **Monitored technologies** > **Envoy** and turn on **Monitor Envoy on every host**.
+   - Go to **Settings** > **Monitoring** > **Monitored technologies**. Find **Envoy** in the list and click the pencil icon on the far right, and turn on **Monitor Envoy** and save changes.
+
+![](images/dynatrace_monitor_envoy.png)
 
 2. Start ingesting **Istiod (control plane) metric**s by annotating the Istiod service:
 
@@ -127,21 +134,27 @@ $ kubectl annotate --overwrite service --all -n <your_namespace> \
  }'
 ```
 
-4. Activate Dynatrace Extension for Istio and Envoy. To add this extension to your environment go to **Dynatrace Hub**,  click **Add to environment** on the page of this extension in the Dynatrace Hub. After activating the extension, select **Dashboards** in Dynatrace. You should now find out of the box dashboards for **Istio - Control Plane** and **Istio - Data Plane**.
+4. Activate Dynatrace Extension for Istio and Envoy. To add this extension to your environment go to **Manage** -> **Dynatrace Hub**,  in the search box enter **Istio**, select **Istio and Envoy Service Mesh (Prometheus)**.  
+
+![](images/dynatrace_add_environment.png)
+
+Then click on **Add to Environment**. You will see the list of content being added:  **Istio - Control Plane** and **Istio - Data Plane**. 
+
+![](images/dynatrace_istio_environment_endresult.png)
 
 5. Activate metric events for alerting. 
 In case your Dynatrace instance is requested via SAP, the extension comes with the two pre-configured metric events for alerting. To activate them:
 
-    - From the Dynatrace navigation menu, select **Settings** > **Anomaly detection** > **Custom events for alerting**.
+    - From the Dynatrace navigation menu, select **Settings** > **Anomaly detection** > **Metric events**.
 
     - Find the following events
 
-        - Istio - Large number of 500 responses detected: notifies you if more than 10 500 responses are detected in 3 of any 5 minute period.
-        - Istio - Large number of Galley failed validations: notifies you if there are more than 5 failed galley violations detected in 3 of any 5 minute period.
+        - Istio - Large number of 500 responses detected.
+        - Istio - Large number of Galley failed validations.
 
     - If necessary, select the Edit button to customize the event conditions.
 
-    - Move the switch next an event to the On position to activate it.
+    - Use toggle button to activate the mentioned even.
 
 Now go to **Dashboards**, you can now check out the Istio - Control Plane and Istio - Data Plane dashboards in your Dynatrace environment:
 
