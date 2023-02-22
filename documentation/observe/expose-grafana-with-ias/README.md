@@ -8,7 +8,7 @@ For exposing the Grafana dashboard outside the cluster, we need to have an authe
 
 To obtain a tenant of Identity Authentication please refer to [official document](https://help.sap.com/docs/IDENTITY_AUTHENTICATION/6d6d63354d1242d185ab4830fc04feb1/93160ebd2dcb40e98aadcbb9a970f2b9.html#getting-a-tenant). For SAP Employees there is a different process described [here](https://github.tools.sap/saas-extension-on-kyma/easyfranchise-internal-appendix/blob/main/btp-kyma-day2-operations/README.md)
 
-1. In Identity Authentication, create a new OpenID Connect application for Identity Authentication. Select the application just being created, and click on Protocol. Set protocol to **OpenID Connect** and click **Save** button.
+1. In Identity Authentication, create a new OpenID Connect application by clicking on **Create** button. Fill in **Display Name**, e.g. `<YourKymaCluster>-expose-grafana` and click **Save**. Select the application just being created, and click on Protocol. Set protocol to **OpenID Connect** and click **Save** button.
 
    ![](images/ias_switch_to_openid.png)
 
