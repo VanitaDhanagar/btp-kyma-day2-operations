@@ -111,6 +111,7 @@ Kyma comes with service-to-service communication and proxying (Istio-based servi
 
 3. Start ingesting **Envoy (data plane) metrics** by annotating your own services. In an Istio/Envoy service mesh you deploy your own services with an Envoy sidecar proxy. The following command will annotate all services in the specified namespace to scrape Envoy data plane metrics. Adapt the metric keys in the filter as needed if you would like to collect additional metrics. To avoid port conflicts with sidecars, applications should not use any of the ports used by Envoy. You can check the [ports used by Istio sidecar proxy (Envoy)](https://istio.io/latest/docs/ops/deployment/requirements/#ports-used-by-istio).
 
+Please make sure adjust `<your_namespace>` with your namespace.
 ```shell
 
 $ kubectl annotate --overwrite service --all -n <your_namespace> \
@@ -190,7 +191,7 @@ Kyma system metrics in the `kyma-system` namespace cannot be scraped directly du
     > Note: In case you are using Dynatrace trial environment, the API_ENDPOINT would be different from the one specified above.
 
     > API_ENDPOINT in SAP Dynatrace instance: https://apm.cf.sap.hana.ondemand.com/e/{ENVIRONMENT_ID}/api/v2/metrics/ingest
-    > API_ENDPOINT in trial environment: https://<trial environment ID>.live.dynatrace.com/api/v2/metrics/ingest
+    > API_ENDPOINT in trial environment: https://`<trial environment ID>`.live.dynatrace.com/api/v2/metrics/ingest
 
 1. Download the file [otel-agent-mtls.yaml](/code/day2-operations/deployment/k8s/otel-agent-mtls.yaml) and apply the file to deploy Collector into namespace `otel-system`.
 
