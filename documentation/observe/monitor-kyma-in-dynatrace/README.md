@@ -207,9 +207,9 @@ Kyma system metrics in the `kyma-system` namespace cannot be scraped directly du
     kubectl get deployment/otel-agent -n otel-system
     ```
 
-### Cleanup.
+### Cleanup (Optional)
 
-If the OpenTelemetry Collector agent is no longer needed, please run following commands to delete all resources:
+The OpenTelemetry Collector agent will be needed in the next step. Once the whole mission is finished, and the agent is no longer needed, please run following commands to delete all resources:
 
 ```shell
   kubectl delete -f otel-agent-mtls.yaml
