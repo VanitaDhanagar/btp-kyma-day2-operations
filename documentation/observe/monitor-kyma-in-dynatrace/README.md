@@ -98,6 +98,7 @@ Kyma comes with service-to-service communication and proxying (Istio-based servi
  "pilot_conflict_outbound_listener_http_over_current_tcp",
  "pilot_conflict_outbound_listener_tcp_over_current_http",
  "pilot_conflict_outbound_listener_tcp_over_current_tcp",
+ "pilot_k8s_cfg_events",
  "pilot_push_triggers",
  "pilot_services",
  "pilot_virt_services",
