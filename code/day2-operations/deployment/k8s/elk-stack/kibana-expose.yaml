@@ -18,16 +18,16 @@
 #           number: 5601
 #         host: ef-kibana-kb-http
 ---
-apiVersion: gateway.kyma-project.io/v1alpha1
+apiVersion: gateway.kyma-project.io/v1beta1
 kind: APIRule
 metadata:
   name: kibana-expose
 spec:
   gateway: kyma-gateway.kyma-system.svc.cluster.local
+  host: kibana 
   service:
     name: ef-kibana-kb-http
-    port: 5601
-    host: kibana 
+    port: 5601    
   rules:
     - path: /.*
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"]

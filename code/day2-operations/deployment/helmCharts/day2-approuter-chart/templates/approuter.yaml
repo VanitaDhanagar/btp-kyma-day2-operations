@@ -51,17 +51,17 @@ spec:
   selector:
     app: day2-approuter
 ---
-apiVersion: gateway.kyma-project.io/v1alpha1
+apiVersion: gateway.kyma-project.io/v1beta1
 kind: APIRule
 metadata:
   name: day2-approuter-apirule
   namespace: day2-operations
 spec:
   gateway: kyma-gateway.kyma-system.svc.cluster.local
+  host: day2-ui # url for provider subaccount, adapt to your own subdomain
   service:
     name: day2-approuter
-    port: 5000
-    host: day2-ui # url for provider subaccount, adapt to your own subdomain
+    port: 5000    
   rules:
     - path: /.*
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"]
