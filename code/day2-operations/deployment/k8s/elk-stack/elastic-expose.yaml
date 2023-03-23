@@ -18,16 +18,16 @@
 #           number: 9200
 #         host: ef-elasticsearch-es-http
 ---
-apiVersion: gateway.kyma-project.io/v1alpha1
+apiVersion: gateway.kyma-project.io/v1beta1
 kind: APIRule
 metadata:
   name: elastic-expose
 spec:
   gateway: kyma-gateway.kyma-system.svc.cluster.local
+  host: elasticsearch # adapt to your kyma cluster
   service:
     name: ef-elasticsearch-es-http
-    port: 9200
-    host: elasticsearch # adapt to your kyma cluster
+    port: 9200    
   rules:
     - path: /.*
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"]
