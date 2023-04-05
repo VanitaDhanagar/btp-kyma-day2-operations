@@ -15,8 +15,10 @@ Now that we have created the jobs for both UI's, Easy Franchie UI and Day 2 Oper
    ![](./images/06-webhook-02.png)
 
 1. In the **Type** field, select **GitHub**.
-2. In the **Webhook Credential** field, select **GENERATE**.
-3. Choose **Save**.
+2. In the **Webhook Credential** field, select **Create Credentials**.
+3. Enter a name for the credentials
+4. Click on **Generate** and copy the created Secret
+5. Choose **Save**.
 
    ![](./images/06-webhook-03.png)
 
@@ -26,7 +28,7 @@ In the repository details, choose **...** and then choose **Webhook Data**.
 
    ![](./images/06-webhook-05a.png)
 
-* Either note down the payload URL and the secret or leave the window open, as we need these values for the webhook configuration.
+* Either note down the payload URL leave the window open, as we will need this value for the webhook configuration.
 
    ![](./images/06-webhook-05.png)
 
@@ -49,7 +51,9 @@ In the repository details, choose **...** and then choose **Webhook Data**.
 
 ## Do a Test Commit to Trigger the Build
 
-In order to test the webhook, you can perform a change in the Easy Franchise application. Let's test it by changing something in the Easy Franchise UI.
+In order to test the webhook, you can perform a change in the Easy Franchise application. Let's test it by changing something in the Easy Franchise UI. 
+
+> Note: Currently the build job is configured to use the same version for every build. This will lead to the problem that after performing below described change it will not be visible on the UI. To overcome that problem please edit the deployment job and change the **Container Image Tag** to another value e.g. easyfranchise-ui-002.
 
 1. Open the file [UserProfile.vue](../../../code/easyfranchise/source/ui/src/components/UserProfile.vue).
 

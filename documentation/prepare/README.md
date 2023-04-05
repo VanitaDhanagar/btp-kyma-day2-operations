@@ -9,8 +9,7 @@ You have 2 different options to get it ready:
 
 * Automated approach
 
-  Use the prepared scripts in this mission to configure your SAP BTP environment and to deploy the Easy Franchise application. 
+  We make use of the [btp-setup-automator](https://github.com/SAP-samples/btp-setup-automator) to configure the SAP BTP environment needed for the mission. You can find the instructions how to prepare the account in the [btp-setup-automator use case for our mission](https://github.com/SAP-samples/btp-setup-automator/blob/main/usecases/released/discoverycenter/3999-kyma-day2-operations/README.md).
 
-In this optional chapter, we are using on the second option. Here are the steps needed to have everything set up:
-1. [Set Up your SAP BTP Environment and Deploy the Easy Franchise Application](./btp-environment-and-app-deployment/README.md)
-1. [Prepare the Customer Subaccount](./prepare-customer-subaccount/README.md)
+  After the account has been setup you need to perform some final configuration before you can get started: 
+  1. [Prepare the Customer Subaccount](./prepare-customer-subaccount/README.md)
