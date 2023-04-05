@@ -24,7 +24,6 @@
     1. [Monitoring Kyma in Dynatrace](./observe/monitor-kyma-in-dynatrace/README.md)
     1. [Monitoring Custom Metrics in Dynatrace](./observe/monitor-custom-metrics-in-dynatrace/README.md)
     1. [Monitoring Kyma and Custom Workload Metrics in Custom Prometheus](./observe/monitor-kyma-and-custom-metrics-in-prometheus/README.md)
-
 1. [Deploy](./cicd/README.md)
     1. [Create GitHub Repository and Kyma Service Accounts](./cicd/prepare-cicd-environment/README.md)
     1. [Subscribe to Continuous Integration and Delivery](./cicd/subscribe-ci-cd-application/README.md) (optional)
