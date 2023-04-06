@@ -15,6 +15,9 @@ Among other options, Prometheus could be easily installed using (1) [Prometheus 
 Follow the below steps to install a custom Prometheus instance in your Kyma cluster. In our case, it will be installed in the **default** namespace.
 
 ```shell
+# First make sure default namespace is enabled with istio sidecar injection ##https://kyma-project.io/docs/kyma/latest/04-operation-guides/operations/smsh-01-istio-enable-sidecar-injection
+kubectl label namespace default istio-injection=enabled
+
 # add Prmetheus helm chart repo to your local helm repo
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
@@ -29,12 +32,14 @@ Run the following command to install Prometheus with your custom value file.
 helm install -f prometheus_values.yaml myprometheus prometheus-community/prometheus
 ```
 
-You can then run following command to access Prometheus at http://localhost:9091/
+You can then run following command to access Prometheus at http://localhost:9091/. In the Prometheus UI select Status -- Target, you can both jobs are running healthy.
 
 ```shell
 kubectl  port-forward svc/myprometheus-server 9091:80
 ```
 
+
+![](images/custom_promethus_with_targets.png)
 
 ## Expose Metrics to Prometheus Compliant Tooling
 
@@ -119,6 +124,10 @@ EOF
 ```
 
 3. Show your Prometheus service with the command `echo  https://myprometheus-server.$DOMAIN`. You will need the URL later to configure datasource in Grafana.
+
+https://github.tools.sap/cpaxref/kyma-extension/blob/main/docs/how-to/setup-mtls-for-your-reuse-service.md
+Currently we are getting this error "upstream connect error or disconnect/reset before headers. retried and the latest reset reason: connection failure, transport failure reason: TLS error: 268435703:SSL routines:OPENSSL_internal:WRONG_VERSION_NUMBER"
+
 
 
 4. To create a free trial account on Grafana Cloud, see [Grafana Labs](https://grafana.com/auth/sign-up/create-user?pg=hp&plcmt=hero-btn1&cta=create-free-account) and follow the onscreen process. Once the account is created, open the Grafana instance by choosing **Launch**.

@@ -7,4 +7,22 @@ datasources:
       url: http://myprometheus-server.default.svc.cluster.local
       access: proxy
       isDefault: true
-      
+
+## Pod Annotations
+podAnnotations:
+  proxy.istio.io/config: |
+    # configure an env variable `OUTPUT_CERTS` to write certificates to the given folder
+    proxyMetadata:
+      OUTPUT_CERTS: /etc/istio-output-certs
+  sidecar.istio.io/userVolumeMount: '[{"name": "istio-certs", "mountPath": "/etc/istio-output-certs"}]'
+  traffic.sidecar.istio.io/includeInboundPorts: ""
+  traffic.sidecar.istio.io/includeOutboundIPRanges: ""
+
+## Pod Labels
+podLabels:
+  sidecar.istio.io/inject: "true"        
+
+extraVolumeMounts:
+  - mountPath: /etc/istio-output-certs
+    name: istio-certs
+    readOnly: true
