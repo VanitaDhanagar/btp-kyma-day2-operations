@@ -59,7 +59,7 @@ db_number_connections_all_users{Tenant="Customer_Subaccount_Domain_2",} 10.0
       prometheus:
         config:
           scrape_configs:
-            - job_name: 'db_jmx_metrics'  ## c3p0 pool metrics
+            - job_name: 'db_jmx_metrics' #c3p0 pool metrics
               tls_config:
                 ca_file: /etc/istio-output-certs/root-cert.pem
                 cert_file: /etc/istio-output-certs/cert-chain.pem
@@ -67,21 +67,73 @@ db_number_connections_all_users{Tenant="Customer_Subaccount_Domain_2",} 10.0
                 key_file: /etc/istio-output-certs/key.pem
               scheme: https 
               scrape_interval: 15s
-              metrics_path: '/prometheus/metrics'  
-              static_configs:
-                - targets:
-                  - 'day2-service.day2-operations.svc.cluster.local:8091'               
+              metrics_path: '/prometheus/metrics'
+              kubernetes_sd_configs:
+                - role: endpoints
+                  namespaces:
+                    names:
+                      - day2-operations
+              relabel_configs:
+                - action: keep
+                  source_labels:
+                    - __meta_kubernetes_service_label_app
+                  regex: day2-service   
+                - action: keep
+                  source_labels:
+                    - __meta_kubernetes_endpoint_port_name
+                  regex: http-web                 
 ```
         
-Note that although the endpoint is exposed in http, the istio sidecar injection automatically enables **https** access through the service mesh. Hence the **scheme** is set to **https** above. The required certificate for SSL connection is provided through below code snipet. 
+Note that although the endpoint is exposed in http, the istio sidecar injection automatically enables **https** access through the service mesh. Hence the **scheme** is set to **https** above. The required certificate for SSL connection is provided through below code snipet. Furthermore, the **db_jmx_metrics** job discovers the **day2-service**  by searching for endpoints in the **day2-operations** namespace that have the label **day2-service** and the **http-web** port. Below is an illustration of the **day2-service**. Notice that the service is located in the **day2-operations** namespace, has the label **app: day2-service**, and uses the port name **name: http-web**.
 
 ```yaml
+$kubectl -n day2-operations get svc day2-service -o yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    meta.helm.sh/release-name: day2-service
+    meta.helm.sh/release-namespace: day2-operations
+  creationTimestamp: "2023-03-28T08:48:29Z"
+  labels:
+    app: day2-service
+    app.kubernetes.io/managed-by: Helm
+  name: day2-service
+  namespace: day2-operations
+  resourceVersion: "7226882"
+  uid: 6079fdbc-0d28-439d-ab65-4a64a979e57d
+spec:
+  clusterIP: 100.111.227.113
+  clusterIPs:
+  - 100.111.227.113
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: http-web
+    port: 8091
+    protocol: TCP
+    targetPort: 8091
+  selector:
+    app: day2-service
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
+```
+
+```yaml
+      labels:
+        app: opentelemetry
+        component: otel-agent
+        sidecar.istio.io/inject: "true"   
       annotations:
         proxy.istio.io/config: |
           # configure an env variable `OUTPUT_CERTS` to write certificates to the given folder
           proxyMetadata:
             OUTPUT_CERTS: /etc/istio-output-certs
-        sidecar.istio.io/inject: "true"
         sidecar.istio.io/userVolumeMount: '[{"name": "istio-certs", "mountPath": "/etc/istio-output-certs"}]'
         traffic.sidecar.istio.io/includeInboundPorts: ""
         traffic.sidecar.istio.io/includeOutboundIPRanges: ""
@@ -93,6 +145,13 @@ The complete file *otel-agent-mtls.yaml* with the configuration above can be fou
 kubectl apply -f otel-agent-mtls.yaml
 ```
 
+Check if custom db metrics are properly collected by day2-service. 
+
+```shell
+
+kubectl -n day2-operations port-forward svc/day2-service 8091:8091, 
+````
+then access http://localhost:8091/prometheus/metrics
 
 3. With the *Dynatrace exporter* from the *OpenTelemetry collector*, the metrics are forwarded to the Dynatrace instance. In Dynatrace, you can create a dashboard based on the custom metrics above. 
 
