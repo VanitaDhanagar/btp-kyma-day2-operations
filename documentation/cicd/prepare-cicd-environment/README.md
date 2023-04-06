@@ -25,8 +25,10 @@ You can create a service account either using the **Kubernetes Command Line Tool
 2. Expand the **Configuration** menu on the left side.
 3. Choose **Service Accounts**.
 4. Choose **Create Service Account** and then choose **+** to open the **Create Service Account** dialog.
-5. In the **Create Service Account** dialog, enter the name for the Service Account, for example **cicd-frontend**.
-6. Choose **Create**.
+5. In the **Create Service Account** dialog, switch to **Advanced**, 
+6. Enter the name for the Service Account, for example **cicd-frontend**
+7. Select **Create associated Secret** to generate the kubeconfig.yaml
+8. Choose **Create**.
   
    ![](./images/05-CICD-12.png)
 
