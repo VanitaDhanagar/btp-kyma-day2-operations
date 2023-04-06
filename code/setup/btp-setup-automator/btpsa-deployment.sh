@@ -7,6 +7,21 @@ log() {
   echo -e "${yellow}$*${no_color}"
 }
 
+for i in "$@"; do
+  case $i in    
+    -v=*|--variant=*)
+      VARIANT_NUMBER="${i#*=}"
+      VARIANT_NUMBER_SELECTED=true      
+      ;;    
+    *)
+      # unknown option
+      log "Error: Unknown argument ${i}"
+      usage
+      ;;
+  esac
+done
+
+
 continue_prompt_bool() {
   log
   read -p "$1 (y or yes to accept): " -r varname
@@ -80,20 +95,22 @@ echo "##########################################################################
 echo ""
 read_automator_config
 
-log "Choose Deployment option, Variant 1 will deploy the application ready for the Mission. Variant 2 contains all the enhancements which will be introduced throughout the mission:"
-declare -a arr="(Mission-Start Mission-End)"    # must be quoted like this
-createmenu "${arr[@]}"
-VARIANT_NUMBER="$retval"
+if [ "$VARIANT_SELECTED" = false ]; then
+  log "Choose Deployment option, Variant 1 will deploy the application ready for the Mission. Variant 2 contains all the enhancements which will be introduced throughout the mission:"
+  declare -a arr="(Mission-Start Mission-End)"    # must be quoted like this
+  createmenu "${arr[@]}"
+  VARIANT_NUMBER="$retval"
+fi
 
-case $VARIANT_NUMBER in
-  1)	
-    BTPSA_KYMA_IMAGE_TAG="main"
-  ;;&    
-  2)
-    BTPSA_KYMA_IMAGE_TAG="endresult"
-    log "Checkout endresult branch"
-    cd /home/user/tutorial || exit
-    git checkout endresult
+  case $VARIANT_NUMBER in
+    1)	
+      BTPSA_KYMA_IMAGE_TAG="main"
+      ;;&    
+    2)
+      BTPSA_KYMA_IMAGE_TAG="endresult"
+      log "Checkout endresult branch"
+      cd /home/user/tutorial || exit
+      git checkout endresult
   ;;          
 esac
 
