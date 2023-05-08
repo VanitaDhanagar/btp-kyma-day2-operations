@@ -26,6 +26,8 @@ Using Spring Boot you can configure properties using application.properties file
 
 > Note: If you have used the btp-setup-automator you can find the password for the database either in the [usecasefile](https://github.com/SAP-samples/btp-setup-automator/blob/main/usecases/released/discoverycenter/3999-kyma-day2-operations/usecase.json). Search for the systempassword in the **hana-cloud** entry. Alternatively you can have a look at the db-config secret which is located in the integration namespace of your kyma cluster.
 
+> Note: if you use a "fresch" Database user you have to also to redo the onboarding tenent steps from the the related mission[Develop a Multitenant Extension Application in SAP BTP, Kyma Runtime](https://discovery-center.cloud.sap/missiondetail/3683/3726/) mission: [Onboard the First Tenant](https://github.com/SAP-samples/btp-kyma-multitenant-extension/blob/main/documentation/prepare/test-app-locally/README.md#onboard-the-first-tenant)
+
 ## Build and Test Run the Day2 Service Locally
 
 1. Open a command prompt and change directory to [code/day2-operations/source/day2-service/](../../../code/day2-operations/source/day2-service/).
