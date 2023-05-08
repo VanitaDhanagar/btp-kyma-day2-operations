@@ -148,8 +148,7 @@ The [package.json](../../../code/day2-operations/source/day2-approuter/package.j
 
 The [xs-app.json](../../../code/day2-operations/source/day2-approuter/xs-app.json) file defines the routes. For example, all sources fitting to pattern ```^/day2-service/(.*)$``` are routed to the destinstion ```day2-service```.
 
-This destination is defined in the deployment section in the file [code/day2-operations/deployment/helmCharts/day2-approuter-chart/templates/approuter.yaml
-](../../../code/day2-operations/deployment/helmCharts/day2-approuter-chart/templates/approuter.yaml):
+This destination is defined in the deployment section in the file [code/day2-operations/deployment/helmCharts/day2-approuter-chart/templates/approuter.yaml](../../../code/day2-operations/deployment/helmCharts/day2-approuter-chart/templates/approuter.yaml):
 ```yaml
 ---
 apiVersion: v1
@@ -164,8 +163,7 @@ data:
     ] 
 ```    
 
-The SAP Authorization and Trust Managements service is defined in the [code/day2-operations/deployment/helmCharts/day2-approuter-chart/templates/approuter.yaml
-](../../../code/day2-operations/deployment/helmCharts/day2-approuter-chart/templates/approuter.yaml):
+The SAP Authorization and Trust Managements service is defined in the [code/day2-operations/deployment/helmCharts/day2-approuter-chart/templates/approuter.yaml](../../../code/day2-operations/deployment/helmCharts/day2-approuter-chart/templates/approuter.yaml):
 ```
 apiVersion: servicecatalog.k8s.io/v1beta1
 kind: ServiceInstance
