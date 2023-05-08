@@ -59,7 +59,7 @@ metadata:
   namespace: day2-operations
 spec:
   ports:
-  - name: 8091-8091    
+  - name: http-web  
     port: 8091
     protocol: TCP
     targetPort: 8091  
