@@ -16,18 +16,29 @@ data:
       prometheus:
         config:
           scrape_configs:
-            # - job_name: 'db_jmx_metrics'
-            #   tls_config:
-            #     ca_file: /etc/istio-output-certs/root-cert.pem
-            #     cert_file: /etc/istio-output-certs/cert-chain.pem
-            #     insecure_skip_verify: true
-            #     key_file: /etc/istio-output-certs/key.pem
-            #   scheme: https 
-            #   scrape_interval: 15s
-            #   metrics_path: '/prometheus/metrics'
-            #   static_configs:
-            #     - targets:
-            #       - 'day2-service.day2-operations.svc.cluster.local:8091'             
+            - job_name: 'db_jmx_metrics'
+              tls_config:
+                ca_file: /etc/istio-output-certs/root-cert.pem
+                cert_file: /etc/istio-output-certs/cert-chain.pem
+                insecure_skip_verify: true
+                key_file: /etc/istio-output-certs/key.pem
+              scheme: https 
+              scrape_interval: 15s
+              metrics_path: '/prometheus/metrics'
+              kubernetes_sd_configs:
+                - role: endpoints
+                  namespaces:
+                    names:
+                      - day2-operations
+              relabel_configs:
+                - action: keep
+                  source_labels:
+                    - __meta_kubernetes_service_label_app
+                  regex: day2-service   
+                - action: keep
+                  source_labels:
+                    - __meta_kubernetes_endpoint_port_name
+                  regex: http-web                              
             - job_name: 'prometheus-federate'
               scrape_timeout: 30s
               honor_labels: false
@@ -52,7 +63,7 @@ data:
                 - action: keep
                   source_labels:
                     - __meta_kubernetes_endpoint_port_name
-                  regex: web
+                  regex: http-web
     exporters:
       dynatrace:
         endpoint: "${API_ENDPOINT}"
@@ -140,12 +151,12 @@ spec:
       labels:
         app: opentelemetry
         component: otel-agent
+        sidecar.istio.io/inject: "true"        
       annotations:
         proxy.istio.io/config: |
           # configure an env variable `OUTPUT_CERTS` to write certificates to the given folder
           proxyMetadata:
             OUTPUT_CERTS: /etc/istio-output-certs
-        sidecar.istio.io/inject: "true"
         sidecar.istio.io/userVolumeMount: '[{"name": "istio-certs", "mountPath": "/etc/istio-output-certs"}]'
         traffic.sidecar.istio.io/includeInboundPorts: ""
         traffic.sidecar.istio.io/includeOutboundIPRanges: ""
@@ -153,6 +164,8 @@ spec:
       containers:
       - name: otel-agent
         image: otel/opentelemetry-collector-contrib:latest
+        args:
+          - --config=/etc/otel/config.yaml        
         env:
         - name: API_TOKEN
           valueFrom:

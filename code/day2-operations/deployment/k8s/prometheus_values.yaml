@@ -9,42 +9,95 @@ serviceAccounts:
 alertmanager:
   enabled: false  ## If false, alertmanager will not be installed
 
-nodeExporter:     
+prometheus-node-exporter:
   enabled: false  ## If false, node-exporter will not be installed
 
-pushgateway:
+prometheus-pushgateway:
   enabled: false  ## If false, pushgateway will not be installed
 
-kubeStateMetrics:
+kube-state-metrics:
   enabled: false  ## If false, kube-state-metrics sub-chart will not be installed
 
 server:
   global:
     scrape_interval: 15s  ## How frequently to scrape targets by default
 
+  #extraArgs:
+  ## Additional Prometheus server container arguments
+  ##
+    #config: /etc/otel/config.yaml  
+
+  ## Additional Prometheus server Volume mounts
+  ##
+  extraVolumeMounts:
+    - mountPath: /etc/istio-output-certs
+      name: istio-certs
+      readOnly: true
+
+  ## Additional Prometheus server Volumes
+  ##
+  extraVolumes:
+    - name: istio-certs
+      emptyDir: {}  
+
   persistentVolume:
     ## If true, Prometheus server will create/use a Persistent Volume Claim
     ## If false, use emptyDir
     enabled: false    
-
+  podAnnotations:
+    ## Annotations to be added to Prometheus server pods
+    ##  
+    proxy.istio.io/config: |
+      # configure an env variable `OUTPUT_CERTS` to write certificates to the given folder
+      proxyMetadata:
+        OUTPUT_CERTS: /etc/istio-output-certs
+    sidecar.istio.io/userVolumeMount: '[{"name": "istio-certs", "mountPath": "/etc/istio-output-certs"}]'
+    traffic.sidecar.istio.io/includeInboundPorts: ""
+    traffic.sidecar.istio.io/includeOutboundIPRanges: ""
+  podLabels:
+    ## Labels to be added to Prometheus server pods
+    ##
+    sidecar.istio.io/inject: "true"        
 
 ## Prometheus server ConfigMap entries
 ##
 serverFiles:
   prometheus.yml:
     scrape_configs:
-      - job_name: db_jmx_metrics
-        scheme: http 
+      # - job_name: db_jmx_metrics
+      #   scheme: http 
+      #   scrape_interval: 15s
+      #   metrics_path: '/prometheus/metrics'
+      #   static_configs:
+      #     - targets:
+      #       - day2-service.day2-operations.svc.cluster.local:8091
+      - job_name: 'db_jmx_metrics'
+        tls_config:
+          ca_file: /etc/istio-output-certs/root-cert.pem
+          cert_file: /etc/istio-output-certs/cert-chain.pem
+          insecure_skip_verify: true
+          key_file: /etc/istio-output-certs/key.pem
+        scheme: https 
         scrape_interval: 15s
         metrics_path: '/prometheus/metrics'
-        static_configs:
-          - targets:
-            - day2-service.day2-operations.svc.cluster.local:8091
-
+        kubernetes_sd_configs:
+          - role: endpoints
+            namespaces:
+              names:
+                - day2-operations
+        relabel_configs:
+          - action: keep
+            source_labels:
+              - __meta_kubernetes_service_label_app
+            regex: day2-service   
+          - action: keep
+            source_labels:
+              - __meta_kubernetes_endpoint_port_name
+            regex: http-web    
       - job_name: 'prometheus-federate' # https://prometheus.io/docs/prometheus/latest/federation/#configuring-federation
-        scrape_interval: 5m
         scrape_timeout: 30s
-        honor_labels: true
+        scrape_interval: 5m        
+        honor_labels: false
         metrics_path: '/federate'
         params:
           'match[]':
@@ -53,6 +106,32 @@ serverFiles:
             - '{__name__=~"fluentbit(.*)"}'
             - '{__name__=~"servicecatalog(.*)"}'
             - '{__name__=~"controller_runtime(.*)"}'
-        static_configs:
-          - targets:
-            - 'monitoring-prometheus.kyma-system.svc.cluster.local:9090'
+        kubernetes_sd_configs:
+          - role: endpoints
+            namespaces:
+              names:
+                - kyma-system
+        relabel_configs:
+          - action: keep
+            source_labels:
+              - __meta_kubernetes_service_label_app
+            regex: monitoring-prometheus
+          - action: keep
+            source_labels:
+              - __meta_kubernetes_endpoint_port_name
+            regex: http-web            
+      # - job_name: 'prometheus-federate' # https://prometheus.io/docs/prometheus/latest/federation/#configuring-federation
+      #   scrape_interval: 5m
+      #   scrape_timeout: 30s
+      #   honor_labels: true
+      #   metrics_path: '/federate'
+      #   params:
+      #     'match[]':
+      #       - '{__name__=~"event(.*)"}'
+      #       - '{__name__=~"loki(.*)",__name__!="loki_ingester_checkpoint_duration_seconds"}'
+      #       - '{__name__=~"fluentbit(.*)"}'
+      #       - '{__name__=~"servicecatalog(.*)"}'
+      #       - '{__name__=~"controller_runtime(.*)"}'
+      #   static_configs:
+      #     - targets:
+      #       - 'monitoring-prometheus.kyma-system.svc.cluster.local:9090'
