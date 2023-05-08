@@ -91,7 +91,7 @@ Using Spring Boot you can configure properties using application.properties file
 To run locally the services listed above, you have to configure some properties in the `hiddenconfig.properties` file:
 1. Open the prepared sources from the previous steps or download the one from the GitHub [Repository](../../../code/easyfranchise/source/backend). In the **endresult** branch, you will find the source in the [code/easyfranchise/source/backend](../../../code/easyfranchise/source/backend) folder.
 
-2. Copy the file ```code/backend/shared-code/src/main/resources/hiddenconfig-template.properties``` to `hiddenconfig.properties` in the same folder.
+2. Copy the file [code/easyfranchise/source/backend/shared-code/src/main/resources/hiddenconfig-template.properties](../../../code/easyfranchise/source/backend/shared-code/src/main/resources/hiddenconfig-template.properties) to `hiddenconfig.properties` in the same folder.
 
 3. Maintain your SAP HANA Cloud JDBC connection properties in the `db.*` section. This should look like this:
    ```
